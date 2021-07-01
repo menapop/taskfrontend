@@ -1,0 +1,164 @@
+<div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">{{ 'Users' | translate }}</h5>
+    </div>
+    <div class="card-body">
+      <form class="needs-validation" [formGroup]="form" novalidate>
+       <input type="hidden" formControlName="id" value="0" />
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['firstName']" formControlName="firstName" text="{{ 'firstName' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['middleName']" formControlName="middleName" text="{{ 'middleName' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['lastName']" formControlName="lastName" text="{{ 'lastName' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['email']" formControlName="email" text="{{ 'email' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['mobile']" formControlName="mobile" text="{{ 'mobile' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['password']" formControlName="password" text="{{ 'password' | translate }}">
+              </app-input>
+              </div>
+          </div>
+          <div class=" col-md-3 pr-1" *ngFor="let item of roles.controls; let i = index">
+            <div class="form-group">
+  
+              <div formArrayName="roles" class="row" >
+                <div class=" col-md-10" [formGroupName]="i">
+                  <app-drop-down
+                    *ngIf="allRoles && allRoles.length > 0"
+                    [Textvalue]="'name'"
+                    [Idvalue]="'id'"
+                    [data]="allRoles"
+                    [c]="item.get('roleId')"
+                    formControlName="roleId"
+                    text="{{ 'Select Role' | translate }}"
+                  ></app-drop-down>
+                </div>
+                <div class="col-md-2 circul">
+                  <img src="/assets/img/add-circle.png" (click)="addRole()" *ngIf="i == roles.controls.length - 1" />
+                  <img src="/assets/img/minus.png"  (click)="deleteRole(i)" *ngIf="i != roles.controls.length - 1" />
+                </div>
+              </div>
+            
+            </div>
+        
+            
+          </div>
+          
+          <div class="col-md-3 form-group">
+            <div class="row">
+              <div class="form-group">
+                <div *ngIf="isUpdate " class="update ml-auto mr-auto">
+                  <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-round mx-3 m-t-10" (click)="updateUser()">
+                    {{ 'Edit' | translate }}
+                  </button>
+    
+                  <button type="submit" (click)="form.reset(); isUpdate = false" [disabled]="!form.valid"
+                    class="btn btn-success btn-round mx-3 m-t-10">
+                    {{ 'Cancel' | translate }}
+                  </button>
+                </div>
+                <div *ngIf="!isUpdate  " class="update ml-auto mr-auto m-t-10">
+                  <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-round " (click)="addUser()">
+                    {{ 'Add' | translate }}
+                  </button>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+        </div> 
+      
+  
+        <div *ngIf="allUsers && allUsers.length > 0  " class="col-12 p-d-0"  id="htmlData">
+          <p-table [paginator]="true"  [rowsPerPageOptions]="[5,10, 50, 100]" [exportFilename]="FileTitle" [rows]="5" [columns]="cols" [value]="allUsers" sortMode="multiple"  #dt>
+            <ng-template pTemplate="caption">
+              <div class=" row" style="margin: 5px;" >
+                  <button type="button" pButton pRipple icon="pi pi-file-o" style="margin: 5px;" (click)="dt.exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                  <!-- <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button> -->
+                  <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf"  style="margin: 5px;" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button> -->
+                
+              </div>
+          </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header | translate }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th class="ui-sortable-column">
+                  {{ 'Actions' | translate }}
+                </th>
+              </tr>
+              <tr>
+                <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                  <input pInputText type="text" (input)="
+                      dt.filter($event.target.value, col.field, 'contains')
+                    " />
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{ user[col.field] }}
+                </td>
+                <td>
+                  <button type="submit" (click)="isUpdate = true; setEdit(user)" class="btn btn-info btn-round mx-3">
+                    {{ 'Edit' | translate }}
+                  </button>
+                  <button type="submit" class="btn btn-danger btn-round mx-3" (click)="showDeleteConfirm(user['id'])">
+                    {{ 'Delete' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </form>
+    </div>
+  </div>
+  <p-toast position="top-center"></p-toast>
+  <p-toast position="center" key="c" (onClose)="onDeleteReject()"  [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+      <div style="text-align: center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+        <h3>{{ message.summary }}</h3>
+        <p>{{ message.detail }}</p>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-6">
+            <button type="button" pButton (click)="onDeleteConfirm()" label="Yes" class="ui-button-success"></button> &nbsp;
+            <button type="button" pButton (click)="onDeleteReject()" label="No" class="ui-button-secondary"></button>
+          </div>
+          
+        </div>
+      </div>
+   
+      
+    </ng-template>
+  </p-toast>

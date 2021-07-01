@@ -1,0 +1,118 @@
+<div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">{{ 'Roles' | translate }}</h5>
+    </div>
+    <div class="card-body">
+      <form class="needs-validation" [formGroup]="form" novalidate>
+        <input type="hidden" formControlName="id" value="0" />
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <app-input [c]="form.controls['name']" formControlName="name" text="{{ 'Name' | translate }}">
+              </app-input>
+              </div>
+          </div>
+
+         
+        </div>
+      
+  <div class="row">
+    <div  *ngFor="let permission of allPermissions" class="col-md-2">
+      <h2>{{permission.controllerName}}</h2>
+    <div *ngFor="let action of permission.actions"  class="p-field-checkbox" style="width:auto !important;margin-right:5px">
+      <p-checkbox name="action" value="{{action.id}}" [formControl]="form.controls['permissions']"  inputId="{{action.actionName}}" ></p-checkbox>
+      <label for="{{action.actionName}}" style="font-size: 16px;">&nbsp; {{action.actionName}}</label>
+    </div>
+  </div>
+  </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="row">
+            <div class="form-group">
+              <div *ngIf="isUpdate " class="update ml-auto mr-auto">
+                <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-round mx-3 m-t-10" (click)="updateRole()">
+                  {{ 'Edit' | translate }}
+                </button>
+  
+                <button type="submit" (click)="form.reset(); isUpdate = false" [disabled]="!form.valid"
+                  class="btn btn-success btn-round mx-3 m-t-10">
+                  {{ 'Cancel' | translate }}
+                </button>
+              </div>
+              <div *ngIf="!isUpdate  " class="update ml-auto mr-auto m-t-10">
+                <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-round " (click)="addRole()">
+                  {{ 'Add' | translate }}
+                </button>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+
+
+  
+        <div *ngIf="allRoles && allRoles.length > 0  " class="col-12 p-d-0">
+          <p-table [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10, 50, 100]" [columns]="cols" [value]="allRoles" sortMode="multiple" #dt>
+            <ng-template pTemplate="caption">
+              {{ 'Roles' | translate }}
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{ col.header | translate }}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th class="ui-sortable-column">
+                  {{ 'Actions' | translate }}
+                </th>
+              </tr>
+              <tr>
+                <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                  <input pInputText type="text" (input)="
+                      dt.filter($event.target.value, col.field, 'contains')
+                    " />
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{ user[col.field] }}
+                </td>
+                <td>
+                  <button type="submit" (click)="isUpdate = true; setEdit(user)" class="btn btn-info btn-round mx-3">
+                    {{ 'Edit' | translate }}
+                  </button>
+                  <button type="submit" class="btn btn-danger btn-round mx-3" (click)="showDeleteConfirm(user['id'])">
+                    {{ 'Delete' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </form>
+    </div>
+  </div>
+  <p-toast position="top-center"></p-toast>
+  <p-toast position="center" key="c" (onClose)="onDeleteReject()"  [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+      <div style="text-align: center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+        <h3>{{ message.summary }}</h3>
+        <p>{{ message.detail }}</p>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-6">
+            <button type="button" pButton (click)="onDeleteConfirm()" label="Yes" class="ui-button-success"></button> &nbsp;
+            <button type="button" pButton (click)="onDeleteReject()" label="No" class="ui-button-secondary"></button>
+          </div>
+          
+        </div>
+      </div>
+   
+      
+    </ng-template>
+  </p-toast>
+  

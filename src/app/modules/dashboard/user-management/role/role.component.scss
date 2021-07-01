@@ -1,0 +1,20 @@
+
+.circul {
+    margin: inherit;
+    padding: inherit;
+    margin-top: 3px;
+  }
+  
+ i-paginator .ui-dropdown .ui-dropdown-panel ul li:last-child {
+  span::before {
+    content: "All";
+    visibility: visible;
+  }
+  span::after {
+    content: "";
+  }
+  span {
+    visibility: hidden;
+  }
+
+    }

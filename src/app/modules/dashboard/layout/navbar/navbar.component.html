@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <button type="button" class="navbar-toggler_new" (click)="sidebarToggle()">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+      <a class="navbar-brand" href="javascript:void(0)">{{pageName}} </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+      <i class="fa fa-bars"></i>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="isCollapsed">
+
+
+      <!-- <button class="navbar-toggler_new pos_re" (click)="openDialog()">
+        <span *ngIf="notificationsCount>0" class="counter">{{notificationsCount}}</span>
+        <i class="fa fa-bell"></i>
+      </button> -->
+
+
+      <ul class="navbar-nav">
+
+        <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+          <a *ngIf="translate.currentLang=='ar'" (click)="ToEnglish()" class="nav-link">
+            English
+          </a>
+          <a *ngIf="translate.currentLang=='en' || translate.currentLang==undefined " (click)="ToArabic()" class="nav-link">
+            عربي
+          </a>
+        </li>
+
+
+        <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
+          <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuLink">
+            <i style="
+    top: 1px;
+" class="nc-icon nc-settings-gear-65 "></i>
+            <p>
+              <span class="d-lg-none d-md-block">Some Actions</span>
+            </p>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right">
+            <a ngbDropdownItem (click)="logout()">{{'LogOut'|translate}}</a>
+
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

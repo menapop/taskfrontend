@@ -1,0 +1,61 @@
+<canvas *ngIf="showLogin" id="canvas" style="z-index: 1000;"></canvas>
+
+<div class="back container-back" *ngIf="showLogin"></div>
+<div
+  style="position: absolute;"
+  *ngIf="showLogin"
+  class="limiter col-md-6 col-xl-4"
+  style="z-index: 3500;"
+>
+  <div class="container-login100">
+    <div style="z-index: 2000;" class="wrap-login100 ">
+      <span class="login100-form-title"> </span>
+
+      <div class="login100-form validate-form ">
+        <div class="img-container ">
+          <h2 class="headline">{{ 'Welcome' | translate }}</h2>
+          <p>{{ 'please sign in to continue' | translate }}</p>
+          <div class="hint">{{ 'Enter your Username provided from adminastrator' | translate }}</div>
+        </div>
+        <form [formGroup]="form"   class="px-2">
+          <div class="wrap-input100  ">
+            <app-input
+              [hent]="''"
+              [c]="form.controls['Email']"
+              formControlName="Email"
+              text="{{ 'Email' | translate }}"
+            >
+            </app-input>
+          </div>
+
+          <div class="wrap-input100  ">
+            <app-input
+              [haveHide]="true"
+              [c]="form.controls['Password']"
+              formControlName="Password"
+              text="{{ 'password' | translate }}"
+            >
+            </app-input>
+          </div>
+          <div class="text-center">
+            <span *ngIf="!validLogin" class="text-danger">
+              {{ 'invalidemailorpassword' | translate }}
+            </span>
+          </div>
+
+          <div class="container-login100-form-btn m-t-32 m-b-32">
+            <button
+            [disabled]="!form.valid"
+              (click)="Submit()"
+              
+              type="button"
+              class="login100-form-btn"
+            >
+              {{ 'Login' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

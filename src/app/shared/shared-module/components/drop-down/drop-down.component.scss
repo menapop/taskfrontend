@@ -1,0 +1,34 @@
+body .ui-inputtext {
+    font-size: 14px;
+    color: #333333;
+    background: #beb2b2;
+    padding: 0.429em;
+    border: 1px solid #1b1919 !important;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  .arrow-drop {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 15px;
+    color: #e0e0e0;
+  }
+  
+  .input-group,
+  .form-group {
+    margin-top: 5px;
+    position: relative;
+  }
+  .arrow_facaret{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    width: 0;
+    height: 0;
+    color: #a6a6a6;
+  }
+  

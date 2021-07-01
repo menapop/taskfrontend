@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <div class="sidebar" data-color="black" data-active-color="info">
+    <app-sidebar (hidmenu)="click"></app-sidebar>
+  </div>
+  <div class="main-panel" (click)="click=!click">
+    <app-navbar></app-navbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
+<p-toast position="top-center"></p-toast>

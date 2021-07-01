@@ -1,0 +1,69 @@
+<div class="sidebar-wrapper">
+  <div class="logo">
+    <a [routerLink]="'/'" class="simple-text logo-mini">
+      <div class="logo-image-small">
+      </div>
+    </a>
+    <a class="simple-text logo-normal">
+        <img src="assets/img/uploadimage.png" style="width: 100px;height:70px;"/>
+    </a>
+    <a class="simple-text logosmall">
+      F S
+    </a>
+  </div>
+  <ul class="nav">
+    <li class="new_menu" routerLinkActive="active_link" [routerLinkActiveOptions]="{ exact: true }">
+      <a class="new_menu_link" [routerLink]="'/'">
+        <!-- <span class="material-icons menu_icon">
+          dashboard
+          </span> -->
+          <img src="assets/img/icons (8).png" class="menu_icon" alt="" srcset="">
+        <p>{{ 'Dashboard' | translate }}</p>
+      </a>
+    </li>
+    <li class="new_menu" *ngFor="let menue of baseMenuePages ; let i =index" routerLinkActive="active_link"
+    >
+      <a class="new_menu_link" [ngClass]="{'Acive_new': menue.show}" (click)="snb_menu(menue)">
+          <!-- <span class="material-icons menu_icon">
+            {{menue.materialicons}}
+            </span> -->
+            <img [src]="menue.materialicons" class="menu_icon" alt="" srcset="">
+        <p> {{ menue.dname | translate }}</p>
+        <span class="material-icons arrow_menu">
+          arrow_forward_ios
+        </span>
+      </a>
+
+      <!-- <div class="collapse" id="des{{ i}}{{ i}}" aria-expanded="false">
+        <ul class="flex-column navflex">
+          <li *ngFor="let page of menue.pages" class="nav-item" [routerLink]="'/' + menue.name + '/' + page.name" routerLinkActive="active">
+            <a class="nav-link py-0" (click)="navigatePage('/' + menue.name + '/' + page.name, page.id)">
+              <i class="fa fa-circle-o t-10"></i>
+              <p class="p-10">{{ page.dname | translate }}</p>
+            </a>
+          </li>
+        </ul>
+      </div> -->
+
+      <div *ngIf="menue.show" class="continer_submenu">
+        <div class="new_submenu">
+          <a class="new_submenu_link" (click)="hide(menue)">
+            <p style="opacity: 0;"> page.dname </p>
+
+            <span class="material-icons arrow2_menu">
+              arrow_back_ios
+            </span>
+          </a>
+        </div>
+        <div class="new_submenu" *ngFor="let page of menue.pages">
+          <a class="new_submenu_link" (click)="navigatePage('/' + menue.name + '/' + page.name, page.id)">
+            <p>{{ page.dname | translate }}</p>
+            <span class="material-icons arrow_menu">
+              arrow_forward_ios
+            </span>
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

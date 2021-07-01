@@ -1,0 +1,27 @@
+
+<div class="form-group">
+    <mat-form-field appearance="outline">
+      <mat-label>{{text}}</mat-label>
+    
+   
+  
+      <input *ngIf="!IsDateTime" maxlength="90" [disabled]="IsDisabled" [(ngModel)]="value" #input id="cont{{text}}"
+        [type]="hide && haveHide ? 'password' : type" matInput (blur)="onChange($event, input.value)"
+        (keyup)="onChange($event, input.value)" placeholder="{{text}}"  >
+      <button mat-button *ngIf="value && !haveHide &&!IsDisabled" class="matbutton" matSuffix mat-icon-button
+        aria-label="Clear" (click)="value='';onChange($event, '')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-icon matSuffix *ngIf="haveHide " (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+    <div style="text-align: initial;">
+      <p> <span class="hint"> {{hent}} </span></p>
+    </div>
+ 
+    <div class="d-content" *ngIf="c.invalid && c.touched" 
+      [@visibilityChanged]="!c.valid && c.touched  " class="text-danger">
+      <p style="text-align: initial;" class="text-danger" *ngFor="let error of errors">{{error}}</p>
+    </div>
+</div>
+  

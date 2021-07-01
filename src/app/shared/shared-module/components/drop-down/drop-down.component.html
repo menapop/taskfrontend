@@ -1,0 +1,23 @@
+<div class="form-group">
+    <span class=" w-100">
+      <span class="arrow_facaret">
+        <i class="fa fa-caret-down"></i>
+      </span>
+      <!-- (mousedown)="onChanges($event, input.value)" -->
+      <select [ngStyle]="{ height: height }"
+        class="form-control  w-100  ui-inputtext ui-corner-all ui-state-default ui-widget " #input
+         [(ngModel)]="value" (change)="onChange($event, input.value)"
+        [disabled]="disabled">
+        <option *ngIf="text !== ''" selected value=""> {{ text }}</option>
+        <option *ngFor="let item of data" value="{{item[Idvalue]}}">{{
+          item[Textvalue]
+        }}</option>
+      </select>
+    </span>
+  
+    <div *ngIf="c.invalid" style="height:11px;" [@visibilityChanged]=" !c.valid && c.touched"
+      class="text-danger">
+      <p style="text-align: initial;" *ngFor="let error of errors">{{ error }}</p>
+    </div>
+  </div>
+  
